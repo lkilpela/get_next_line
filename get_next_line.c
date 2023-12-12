@@ -6,7 +6,7 @@
 /*   By: lkilpela <lkilpela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 12:07:32 by lkilpela          #+#    #+#             */
-/*   Updated: 2023/12/12 15:08:09 by lkilpela         ###   ########.fr       */
+/*   Updated: 2023/12/12 15:54:07 by lkilpela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static char	*read_until_newline(int fd, char *buffer)
 	if (!line)
 		return (NULL);
 	read_bytes = 1;
-	while (!ft_strchr(buffer, '\n') && read_bytes > 0)
+	while (read_bytes > 0)
 	{
 		read_bytes = read(fd, line, BUFF_SIZE);
 		if (read_bytes < 0)
@@ -48,6 +48,8 @@ static char	*read_until_newline(int fd, char *buffer)
 		temp = ft_strjoin(buffer, line);
 		free(buffer);
 		buffer = temp;
+		if (ft_strchr(line, '\n'))
+			break ;
 	}
 	free (line);
 	return (buffer);
@@ -55,5 +57,21 @@ static char	*read_until_newline(int fd, char *buffer)
 
 static char	*extract_line(char *buffer)
 {
-	char	
+	char	*newline_pos;
+	char	*line;
+	size_t	line_len;
+
+	if (!buffer)
+		return (NULL);
+	newline_pos = ft_strchr(buffer, '\n');
+	if (newline_pos != NULL)
+		line_len = newline_pos - buffer + 1;
+	else
+		line_len = ft_strlen(buffer);
+	line = (char *)malloc(sizeof(char) * line_len + 1);
+	if (!line)
+		return (NULL);
+	ft_memcpy(line, buffer, line_len);
+	line[line_len] = '\0';
+	return (line);
 }
