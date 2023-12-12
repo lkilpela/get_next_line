@@ -6,7 +6,7 @@
 /*   By: lkilpela <lkilpela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 22:23:26 by lkilpela          #+#    #+#             */
-/*   Updated: 2023/12/07 22:28:41 by lkilpela         ###   ########.fr       */
+/*   Updated: 2023/12/12 12:41:07 by lkilpela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,4 +93,23 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	result[i + j] = '\0';
 	return (result);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	size_t	s_len;
+	char	*new_str;
+
+	if (s == NULL)
+		return (NULL);
+	s_len = ft_strlen(s);
+	if (start >= s_len)
+		return (ft_strdup(""));
+	if (start + len > s_len)
+		len = s_len - start;
+	new_str = (char *)malloc(sizeof(char) * (len + 1));
+	if (new_str == NULL)
+		return (NULL);
+	ft_strlcpy(new_str, s + start, len + 1);
+	return (new_str);
 }
