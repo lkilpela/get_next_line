@@ -6,11 +6,15 @@
 /*   By: lkilpela <lkilpela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 12:07:32 by lkilpela          #+#    #+#             */
-/*   Updated: 2023/12/12 15:54:07 by lkilpela         ###   ########.fr       */
+/*   Updated: 2023/12/13 14:13:22 by lkilpela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+static char	*read_until_newline(int fd, char *buffer);
+static char	*extract_first_line(char *buffer);
+static char	*adjust_buffer(char *buffer, char *line);
 
 char	*get_next_line(int fd)
 {
@@ -21,18 +25,31 @@ char	*get_next_line(int fd)
 		return (NULL);
 	buffer = read_until_newline(fd, buffer);
 	if (!buffer)
-		return (NULL);	
+	{
+		free(buffer);
+		buffer = NULL;
+		return (NULL);
+	}
+	line = seperate_next_line(buffer);
+	if (!line)
+	{
+		free(buffer);
+		buffer = NULL;
+		return (NULL);
+	}
+	buffer = adjust_buffer(buffer, line);
+	return (line);	
 }
 
 /*reads from a file descriptor fd into a buffer until it encounters 
 a newline character or reaches the end of the file*/
 static char	*read_until_newline(int fd, char *buffer)
 {
-	char	*line;
-	int		read_bytes;
-	char	*temp;
+	char	*line; //line read from file
+	int		read_bytes;	//number of bytes read from file
+	char	*temp;	//temporary pointer to buffer
 
-	line = (char *)malloc(sizeof(char) * BUFF_SIZE + 1);
+	line = (char *)malloc(sizeof(char) * BUFF_SIZE + 1); 
 	if (!line)
 		return (NULL);
 	read_bytes = 1;
@@ -54,12 +71,13 @@ static char	*read_until_newline(int fd, char *buffer)
 	free (line);
 	return (buffer);
 }
+// extract the first line of text from the buffer
 
-static char	*extract_line(char *buffer)
+static char	*extract_first_line(char *buffer) 
 {
-	char	*newline_pos;
-	char	*line;
-	size_t	line_len;
+	char	*newline_pos; //pointer to the first newline character in buffer
+	char	*line; //line read from buffer
+	size_t	line_len; //length of line
 
 	if (!buffer)
 		return (NULL);
@@ -74,4 +92,17 @@ static char	*extract_line(char *buffer)
 	ft_memcpy(line, buffer, line_len);
 	line[line_len] = '\0';
 	return (line);
+}
+
+static char *adjust_buffer(char *buffer, char *line)
+{
+	size_t	line_len;
+	size_t	*new_buffer_len;
+	char 	*newbuffer;
+	
+	line_len = ft_strlen(line);
+	new_buffer_len = ft_strlen(buffer) - line_len;
+	ft_memmove(buffer, buffer + line_len, new_buffer_len);
+	buffer[new_buffer_len] = '\0';
+	return (buffer);
 }

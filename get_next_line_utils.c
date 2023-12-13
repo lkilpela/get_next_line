@@ -6,7 +6,7 @@
 /*   By: lkilpela <lkilpela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 22:23:26 by lkilpela          #+#    #+#             */
-/*   Updated: 2023/12/12 12:41:07 by lkilpela         ###   ########.fr       */
+/*   Updated: 2023/12/13 14:14:39 by lkilpela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,19 +55,6 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 	return (dst);
 }
 
-char	*ft_strdup(const char *s1)
-{
-	char	*s2;
-	int		i;
-
-	i = ft_strlen(s1);
-	s2 = (char *)malloc(sizeof(char) * (i + 1));
-	if (s2 == NULL)
-		return (NULL);
-	ft_memcpy(s2, s1, i + 1);
-	return (s2);
-}
-
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*result;
@@ -112,4 +99,28 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (NULL);
 	ft_strlcpy(new_str, s + start, len + 1);
 	return (new_str);
+}
+
+void	*ft_memmove(void *dst, const void *src, size_t len)
+{
+	unsigned char		*d;
+	const unsigned char	*s;
+
+	if (dst == src || len == 0)
+		return (dst);
+	d = (unsigned char *)dst;
+	s = (const unsigned char *)src;
+	if (d < s)
+	{
+		ft_memcpy(dst, src, len);
+	}
+	else if (d > s)
+	{
+		while (len > 0)
+		{
+			d[len - 1] = s[len - 1];
+			len--;
+		}
+	}
+	return (dst);
 }
