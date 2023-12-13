@@ -6,7 +6,7 @@
 /*   By: lkilpela <lkilpela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 22:23:26 by lkilpela          #+#    #+#             */
-/*   Updated: 2023/12/13 14:17:00 by lkilpela         ###   ########.fr       */
+/*   Updated: 2023/12/13 15:37:08 by lkilpela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,30 +56,31 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 	return (dst);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*result;
 	size_t	i;
 	size_t	j;
 
-	i = 0;
-	j = 0;
+	if (s1 == NULL)
+	{
+		s1 = (char *)malloc(sizeof(char));
+		s1[0] = '\0';
+ 	}
 	if (s1 == NULL || s2 == NULL)
 		return (NULL);
 	result = (char *) malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (result == NULL)
 		return (NULL);
-	while (s1[i] != '\0')
-	{
-		result[i] = s1[i];
-		i++;
-	}
+	i = -1;
+	j = 0;
+	if (s1)
+		while (s1[++i] != '\0')
+			result[i] = s1[i];
 	while (s2[j] != '\0')
-	{
-		result[i + j] = s2[j];
-		j++;
-	}
-	result[i + j] = '\0';
+		result[i++] = s2[j++];
+	result[ft_strlen(s1) + ft_strlen(s2)] = '\0';
+	free(s1);
 	return (result);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lkilpela <lkilpela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 12:07:32 by lkilpela          #+#    #+#             */
-/*   Updated: 2023/12/13 14:25:54 by lkilpela         ###   ########.fr       */
+/*   Updated: 2023/12/13 15:27:19 by lkilpela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFF_SIZE <= 0)
 		return (NULL);
 	buffer = read_until_newline(fd, buffer);
-	if (!buffer)
+	if (!buffer || !*buffer)
 	{
 		free(buffer);
 		buffer = NULL;
@@ -51,7 +51,10 @@ static char	*read_until_newline(int fd, char *buffer)
 
 	line = (char *)malloc(sizeof(char) * BUFF_SIZE + 1);
 	if (!line)
+	{
+		free(line);
 		return (NULL);
+	}
 	read_bytes = 1;
 	while (read_bytes > 0)
 	{
