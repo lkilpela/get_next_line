@@ -6,7 +6,7 @@
 /*   By: lkilpela <lkilpela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 22:23:26 by lkilpela          #+#    #+#             */
-/*   Updated: 2023/12/13 14:14:39 by lkilpela         ###   ########.fr       */
+/*   Updated: 2023/12/13 14:17:00 by lkilpela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ size_t	ft_strlen(const char *s)
 	}
 	return (i);
 }
+
 void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
 	unsigned char		*d;
@@ -65,7 +66,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	j = 0;
 	if (s1 == NULL || s2 == NULL)
 		return (NULL);
-	result = (char *) malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	result = (char *) malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (result == NULL)
 		return (NULL);
 	while (s1[i] != '\0')
@@ -80,25 +81,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	result[i + j] = '\0';
 	return (result);
-}
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	size_t	s_len;
-	char	*new_str;
-
-	if (s == NULL)
-		return (NULL);
-	s_len = ft_strlen(s);
-	if (start >= s_len)
-		return (ft_strdup(""));
-	if (start + len > s_len)
-		len = s_len - start;
-	new_str = (char *)malloc(sizeof(char) * (len + 1));
-	if (new_str == NULL)
-		return (NULL);
-	ft_strlcpy(new_str, s + start, len + 1);
-	return (new_str);
 }
 
 void	*ft_memmove(void *dst, const void *src, size_t len)
