@@ -6,7 +6,7 @@
 /*   By: lkilpela <lkilpela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 12:07:32 by lkilpela          #+#    #+#             */
-/*   Updated: 2023/12/13 14:20:53 by lkilpela         ###   ########.fr       */
+/*   Updated: 2023/12/13 14:25:54 by lkilpela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,12 +97,11 @@ static char	*extract_first_line(char *buffer)
 static char	*adjust_buffer(char *buffer, char *line)
 {
 	size_t	line_len;
-	size_t	*new_buffer_len;
-	char	*newbuffer;
+	size_t	newbuffer_len;
 
 	line_len = ft_strlen(line);
-	new_buffer_len = ft_strlen(buffer) - line_len;
-	ft_memmove(buffer, buffer + line_len, new_buffer_len);
-	buffer[new_buffer_len] = '\0';
+	newbuffer_len = ft_strlen(buffer) - line_len;
+	ft_memmove(buffer, buffer + line_len, newbuffer_len);
+	buffer[newbuffer_len] = '\0';
 	return (buffer);
 }
