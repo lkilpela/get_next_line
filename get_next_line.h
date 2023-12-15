@@ -6,7 +6,7 @@
 /*   By: lkilpela <lkilpela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 22:23:55 by lkilpela          #+#    #+#             */
-/*   Updated: 2023/12/15 11:03:35 by lkilpela         ###   ########.fr       */
+/*   Updated: 2023/12/15 13:17:52 by lkilpela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct s_list
 }				t_list;
 
 char	*get_next_line(int fd);
-char	*ft_strchr(const char *s, int c);
+char	*ft_strchr(char *s, int c);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 size_t	ft_strlen(const char *s);
 char	*ft_strjoin(char *s1, char *s2);

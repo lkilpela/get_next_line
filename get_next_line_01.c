@@ -6,17 +6,17 @@
 /*   By: lkilpela <lkilpela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 12:07:32 by lkilpela          #+#    #+#             */
-/*   Updated: 2023/12/15 13:04:28 by lkilpela         ###   ########.fr       */
+/*   Updated: 2023/12/15 22:13:52 by lkilpela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-static char	*read_until_newline(int fd, char *buffer);
+static char	*read_until_newline(int fd, char *buffer, char *line);
 static char	*extract_first_line(char *buffer);
 static char	*adjust_buffer(char *buffer, char *line);
-static char	*get_last_line(int fd);
+//char	*get_last_line(int fd);
 
 char	*get_next_line(int fd)
 {
@@ -25,7 +25,7 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFF_SIZE <= 0)
 		return (NULL);
-	buffer = read_until_newline(fd, buffer);
+	buffer = read_until_newline(fd, buffer, line);
 	if (!buffer || !*buffer)
 	{
 		free(buffer);
@@ -48,44 +48,52 @@ char	*get_next_line(int fd)
 
 //reads from a file descriptor fd into a buffer until it encounters 
 //a newline character or reaches the end of the file
-static char	*read_until_newline(int fd, char *buffer)
+static char	*read_until_newline(int fd, char *buffer, char *line;)
 {
 	int		read_bytes;
-	char	*line;
 	char	*temp;
 	//printf("-- entering read\n");
-	line = (char *)malloc(sizeof(char) * BUFF_SIZE + 1);
-	if (!line)
-	{
-		free(line);
-		return (NULL);
-	}
+	//line = (char *)malloc(sizeof(char) * BUFF_SIZE + 1);
+	//if (!line)
+	//{
+	//	free(line);
+	//	return (NULL);
+	//}
 	read_bytes = 1;
-	while (read_bytes > 0)
+	while (read_bytes != '\0')
 	{
-		read_bytes = read(fd, line, BUFF_SIZE);
-		if (read_bytes < 0)
+		read_bytes = read(fd, buffer, BUFF_SIZE);
+		if (read_bytes == -1)
 		{
-			free(line);
+			//free(line);
 			return (NULL);
 		}
-		line[read_bytes] = '\0';
-		if(buffer)
-		{
-			temp = ft_strjoin(buffer, line);
-			free(buffer);
-		}
-		else
-			temp = ft_strdup(line);
+		else if (read_bytes == 0)
+			break ;
+		buffer[read_bytes] = '\0';
+		//if(buffer)
+		//{
+		//	temp = ft_strjoin(buffer, line);
+		//	free(buffer);
+		//}
+		//else
+		//	temp = ft_strdup(line);
 		//printf("-- temp %s\n", temp);
-		buffer = temp;
+		//buffer = temp;
+		if (!line)
+			line = ft_strdup("");
+		temp = line;
+		line = ft_strjoin(temp, buffer);
+		free(temp);
+		temp = NULL;
 		if (ft_strchr(line, '\n'))
 			break ;
 	}
-	free (line);
 	//printf("-- leaving read %s", buffer);
-	return (buffer);
+	//return (buffer);
+	return (line);
 }
+
 
 // extract the first line of text from the buffer
 static char	*extract_first_line(char *buffer)
@@ -121,7 +129,7 @@ static char	*adjust_buffer(char *buffer, char *line)
 	return (buffer);
 }
 
-static char	*get_last_line(int fd)
+/*static char	*get_last_line(int fd)
 {
 	char	*line;
 	char	*last_line;
@@ -135,5 +143,5 @@ static char	*get_last_line(int fd)
 		last_line = line;
 	}
 	return (last_line);
-}
+}*/
 
