@@ -6,7 +6,7 @@
 /*   By: lkilpela <lkilpela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 22:23:55 by lkilpela          #+#    #+#             */
-/*   Updated: 2023/12/13 15:37:42 by lkilpela         ###   ########.fr       */
+/*   Updated: 2023/12/15 11:03:35 by lkilpela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@ void	*ft_memcpy(void *dst, const void *src, size_t n);
 size_t	ft_strlen(const char *s);
 char	*ft_strjoin(char *s1, char *s2);
 void	*ft_memmove(void *dst, const void *src, size_t len);
+char	*ft_strdup(const char *s1);
 
 #endif

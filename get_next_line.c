@@ -6,15 +6,17 @@
 /*   By: lkilpela <lkilpela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 12:07:32 by lkilpela          #+#    #+#             */
-/*   Updated: 2023/12/13 15:27:19 by lkilpela         ###   ########.fr       */
+/*   Updated: 2023/12/15 13:04:28 by lkilpela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
 static char	*read_until_newline(int fd, char *buffer);
 static char	*extract_first_line(char *buffer);
 static char	*adjust_buffer(char *buffer, char *line);
+static char	*get_last_line(int fd);
 
 char	*get_next_line(int fd)
 {
@@ -27,17 +29,20 @@ char	*get_next_line(int fd)
 	if (!buffer || !*buffer)
 	{
 		free(buffer);
-		buffer = NULL;
 		return (NULL);
 	}
 	line = extract_first_line(buffer);
 	if (!line)
 	{
 		free(buffer);
-		buffer = NULL;
 		return (NULL);
 	}
 	buffer = adjust_buffer(buffer, line);
+	if (!buffer || !*buffer)
+	{
+		free(buffer);
+		return (NULL);
+	}
 	return (line);
 }
 
@@ -48,7 +53,7 @@ static char	*read_until_newline(int fd, char *buffer)
 	int		read_bytes;
 	char	*line;
 	char	*temp;
-
+	//printf("-- entering read\n");
 	line = (char *)malloc(sizeof(char) * BUFF_SIZE + 1);
 	if (!line)
 	{
@@ -65,13 +70,20 @@ static char	*read_until_newline(int fd, char *buffer)
 			return (NULL);
 		}
 		line[read_bytes] = '\0';
-		temp = ft_strjoin(buffer, line);
-		free(buffer);
+		if(buffer)
+		{
+			temp = ft_strjoin(buffer, line);
+			free(buffer);
+		}
+		else
+			temp = ft_strdup(line);
+		//printf("-- temp %s\n", temp);
 		buffer = temp;
 		if (ft_strchr(line, '\n'))
 			break ;
 	}
 	free (line);
+	//printf("-- leaving read %s", buffer);
 	return (buffer);
 }
 
@@ -108,3 +120,20 @@ static char	*adjust_buffer(char *buffer, char *line)
 	buffer[newbuffer_len] = '\0';
 	return (buffer);
 }
+
+static char	*get_last_line(int fd)
+{
+	char	*line;
+	char	*last_line;
+
+	line = NULL;
+	last_line = NULL;
+	while ((line = read_until_newline(fd, line)) != NULL)
+	{
+		if (last_line)
+			free(last_line);
+		last_line = line;
+	}
+	return (last_line);
+}
+
