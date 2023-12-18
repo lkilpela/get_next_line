@@ -6,7 +6,7 @@
 /*   By: lkilpela <lkilpela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 22:23:26 by lkilpela          #+#    #+#             */
-/*   Updated: 2023/12/18 15:29:04 by lkilpela         ###   ########.fr       */
+/*   Updated: 2023/12/18 15:39:11 by lkilpela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,23 +56,6 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 		i++;
 	}
 	return (dst);
-}
-
-char	*merge_string(char *s1, char *s2)
-{
-	char	*result;
-
-	if (s1 == NULL || s2 == NULL)
-		return (NULL);
-	result = (char *) malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (result)
-	{
-		ft_memcpy(result, s1, ft_strlen(s1));
-		ft_memcpy(result + ft_strlen(s1), s2, ft_strlen(s2));
-		result[ft_strlen(s1) + ft_strlen(s2)] = '\0';
-	}
-	free(s1);
-	return (result);
 }
 
 char	*ft_strdup(const char *s1)
