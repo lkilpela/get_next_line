@@ -6,26 +6,25 @@
 /*   By: lkilpela <lkilpela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 12:07:32 by lkilpela          #+#    #+#             */
-/*   Updated: 2023/12/15 22:13:52 by lkilpela         ###   ########.fr       */
+/*   Updated: 2023/12/18 10:59:25 by lkilpela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-static char	*read_until_newline(int fd, char *buffer, char *line);
+static char	*read_until_newline(int fd, char *buffer);
 static char	*extract_first_line(char *buffer);
 static char	*adjust_buffer(char *buffer, char *line);
-//char	*get_last_line(int fd);
 
 char	*get_next_line(int fd)
 {
 	char		*line;
 	static char	*buffer;
 
-	if (fd < 0 || BUFF_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	buffer = read_until_newline(fd, buffer, line);
+	buffer = read_until_newline(fd, buffer);
 	if (!buffer || !*buffer)
 	{
 		free(buffer);
@@ -38,7 +37,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	}
 	buffer = adjust_buffer(buffer, line);
-	if (!buffer || !*buffer)
+	if (!buffer)
 	{
 		free(buffer);
 		return (NULL);
@@ -48,52 +47,37 @@ char	*get_next_line(int fd)
 
 //reads from a file descriptor fd into a buffer until it encounters 
 //a newline character or reaches the end of the file
-static char	*read_until_newline(int fd, char *buffer, char *line;)
+static char	*read_until_newline(int fd, char *buffer)
 {
+	char	*line;
 	int		read_bytes;
 	char	*temp;
-	//printf("-- entering read\n");
-	//line = (char *)malloc(sizeof(char) * BUFF_SIZE + 1);
-	//if (!line)
-	//{
-	//	free(line);
-	//	return (NULL);
-	//}
+
+	line = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
+	if (!line)
+		return (NULL);
 	read_bytes = 1;
-	while (read_bytes != '\0')
+	while ((read_bytes = read(fd, line, BUFFER_SIZE)) > 0)
 	{
-		read_bytes = read(fd, buffer, BUFF_SIZE);
 		if (read_bytes == -1)
 		{
-			//free(line);
-			return (NULL);
+			free(line);
+			return (0);
 		}
 		else if (read_bytes == 0)
 			break ;
-		buffer[read_bytes] = '\0';
-		//if(buffer)
-		//{
-		//	temp = ft_strjoin(buffer, line);
-		//	free(buffer);
-		//}
-		//else
-		//	temp = ft_strdup(line);
-		//printf("-- temp %s\n", temp);
-		//buffer = temp;
-		if (!line)
-			line = ft_strdup("");
-		temp = line;
-		line = ft_strjoin(temp, buffer);
+		line[read_bytes] = '\0';
+		if (!buffer)
+			buffer = ft_strdup("");
+		temp = buffer;
+		buffer = ft_strjoin(temp, line);
 		free(temp);
-		temp = NULL;
 		if (ft_strchr(line, '\n'))
 			break ;
 	}
-	//printf("-- leaving read %s", buffer);
-	//return (buffer);
-	return (line);
+	free (line);
+	return (buffer);
 }
-
 
 // extract the first line of text from the buffer
 static char	*extract_first_line(char *buffer)
@@ -121,27 +105,16 @@ static char	*adjust_buffer(char *buffer, char *line)
 {
 	size_t	line_len;
 	size_t	newbuffer_len;
+	size_t	i;
 
 	line_len = ft_strlen(line);
 	newbuffer_len = ft_strlen(buffer) - line_len;
-	ft_memmove(buffer, buffer + line_len, newbuffer_len);
+	i = 0;
+	while (i < newbuffer_len)
+	{
+		buffer[i] = buffer[i + line_len];
+		i++;
+	}
 	buffer[newbuffer_len] = '\0';
 	return (buffer);
 }
-
-/*static char	*get_last_line(int fd)
-{
-	char	*line;
-	char	*last_line;
-
-	line = NULL;
-	last_line = NULL;
-	while ((line = read_until_newline(fd, line)) != NULL)
-	{
-		if (last_line)
-			free(last_line);
-		last_line = line;
-	}
-	return (last_line);
-}*/
-
