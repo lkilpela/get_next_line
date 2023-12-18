@@ -6,7 +6,7 @@
 /*   By: lkilpela <lkilpela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 12:07:32 by lkilpela          #+#    #+#             */
-/*   Updated: 2023/12/18 12:37:58 by lkilpela         ###   ########.fr       */
+/*   Updated: 2023/12/18 13:21:45 by lkilpela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static char	*read_until_newline(int fd, char *buffer);
 static char	*extract_first_line(char *buffer);
-static char	*adjust_buffer(char *buffer, char *line);
+static void adjust_buffer(char *buffer, char *line);
 
 char	*get_next_line(int fd)
 {
@@ -38,13 +38,7 @@ char	*get_next_line(int fd)
 		buffer = NULL;
 		return (NULL);
 	}
-	buffer = adjust_buffer(buffer, line);
-	if (!buffer)
-	{
-		free(buffer);
-		buffer = NULL;
-		return (NULL);
-	}
+	adjust_buffer(buffer, line);
 	return (line);
 }
 
@@ -56,7 +50,7 @@ static char	*read_until_newline(int fd, char *buffer)
 	int		read_bytes;
 	char	*temp;
 
-	line = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
+	line = (char *)malloc(BUFFER_SIZE + 1);
 	if (!line)
 		return (NULL);
 	read_bytes = 1;
@@ -107,7 +101,7 @@ static char	*extract_first_line(char *buffer)
 	return (line);
 }
 
-static char	*adjust_buffer(char *buffer, char *line)
+static void adjust_buffer(char *buffer, char *line)
 {
 	size_t	line_len;
 	size_t	newbuffer_len;
@@ -122,5 +116,4 @@ static char	*adjust_buffer(char *buffer, char *line)
 		i++;
 	}
 	buffer[newbuffer_len] = '\0';
-	return (buffer);
 }
