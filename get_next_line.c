@@ -6,7 +6,7 @@
 /*   By: lkilpela <lkilpela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 12:07:32 by lkilpela          #+#    #+#             */
-/*   Updated: 2023/12/18 10:59:25 by lkilpela         ###   ########.fr       */
+/*   Updated: 2023/12/18 12:37:58 by lkilpela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,21 @@ char	*get_next_line(int fd)
 	if (!buffer || !*buffer)
 	{
 		free(buffer);
+		buffer = NULL;	
 		return (NULL);
 	}
 	line = extract_first_line(buffer);
 	if (!line)
 	{
 		free(buffer);
+		buffer = NULL;
 		return (NULL);
 	}
 	buffer = adjust_buffer(buffer, line);
 	if (!buffer)
 	{
 		free(buffer);
+		buffer = NULL;
 		return (NULL);
 	}
 	return (line);
@@ -59,21 +62,24 @@ static char	*read_until_newline(int fd, char *buffer)
 	read_bytes = 1;
 	while ((read_bytes = read(fd, line, BUFFER_SIZE)) > 0)
 	{
-		if (read_bytes == -1)
-		{
-			free(line);
-			return (0);
-		}
-		else if (read_bytes == 0)
-			break ;
 		line[read_bytes] = '\0';
 		if (!buffer)
 			buffer = ft_strdup("");
+		if (!buffer)
+			return (NULL);
 		temp = buffer;
 		buffer = ft_strjoin(temp, line);
 		free(temp);
+		if (!buffer)
+			return (NULL);
 		if (ft_strchr(line, '\n'))
 			break ;
+	}
+	if (read_bytes == -1)
+	{
+		free(line);
+		free(buffer);
+		return (0);
 	}
 	free (line);
 	return (buffer);
