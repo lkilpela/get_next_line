@@ -6,7 +6,7 @@
 /*   By: lkilpela <lkilpela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 22:23:26 by lkilpela          #+#    #+#             */
-/*   Updated: 2023/12/18 13:17:10 by lkilpela         ###   ########.fr       */
+/*   Updated: 2023/12/18 15:29:04 by lkilpela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 char	*ft_strchr(char *s, int c)
 {
+	if (s == NULL)
+		return (NULL);
 	while (*s != '\0')
 	{
 		if (*s == (char)c)
@@ -30,6 +32,8 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 
 	i = 0;
+	if (s == NULL)
+		return (0);
 	while (s[i] != 0)
 		i++;
 	return (i);
@@ -54,18 +58,20 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 	return (dst);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*merge_string(char *s1, char *s2)
 {
 	char	*result;
 
 	if (s1 == NULL || s2 == NULL)
 		return (NULL);
 	result = (char *) malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (result == NULL)
-		return (NULL);
-	ft_memcpy(result, s1, ft_strlen(s1));
-	ft_memcpy(result + ft_strlen(s1), s2, ft_strlen(s2));
-	result[ft_strlen(s1) + ft_strlen(s2)] = '\0';
+	if (result)
+	{
+		ft_memcpy(result, s1, ft_strlen(s1));
+		ft_memcpy(result + ft_strlen(s1), s2, ft_strlen(s2));
+		result[ft_strlen(s1) + ft_strlen(s2)] = '\0';
+	}
+	free(s1);
 	return (result);
 }
 
