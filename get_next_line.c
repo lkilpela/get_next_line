@@ -6,7 +6,7 @@
 /*   By: lkilpela <lkilpela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 12:07:32 by lkilpela          #+#    #+#             */
-/*   Updated: 2023/12/18 15:45:19 by lkilpela         ###   ########.fr       */
+/*   Updated: 2023/12/19 09:22:57 by lkilpela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,19 +91,19 @@ static char	*extract_line(char **buffer)
 static char	*merge_string(char *s1, char *s2)
 {
 	char	*result;
-	size_t	s1_len;
-	size_t	s2_len;
+	size_t	len1;
+	size_t	len2;
 
 	if (s1 == NULL || s2 == NULL)
 		return (NULL);
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	result = (char *) malloc(s1_len + s2_len + 1);
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	result = (char *) malloc(len1 + len2 + 1);
 	if (result)
 	{
-		ft_memcpy(result, s1, s1_len);
-		ft_memcpy(result + s1_len, s2, s2_len);
-		result[s1_len + s2_len] = '\0';
+		ft_memcpy(result, s1, len1);
+		ft_memcpy(result + len2, s2, len2);
+		result[len1 + len2] = '\0';
 	}
 	free(s1);
 	return (result);
