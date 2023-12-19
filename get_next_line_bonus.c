@@ -6,7 +6,7 @@
 /*   By: lkilpela <lkilpela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 09:51:51 by lkilpela          #+#    #+#             */
-/*   Updated: 2023/12/19 11:58:52 by lkilpela         ###   ########.fr       */
+/*   Updated: 2023/12/19 12:51:59 by lkilpela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static char		*read_until_newline(int fd, char *buffer);
 static char		*extract_line(char **buffer);
 static char		*merge_string(char *s1, char *s2);
 
-char	*get_next_line_bonus(int fd)
+char	*get_next_line(int fd)
 {
 	static t_list	*head;
 	t_list			*current_fd;
@@ -28,15 +28,17 @@ char	*get_next_line_bonus(int fd)
 	current_fd = find_or_create_fd_node(&head, fd);
 	if (!current_fd)
 		return (NULL);
+	if (!current_fd->buffer)
+		current_fd->buffer = ft_strdup("");
 	current_fd->buffer = read_until_newline(fd, current_fd->buffer);
 	if (!current_fd->buffer)
-		return (NULL);
-	line = extract_line(&current_fd->buffer);
-	if (!line && current_fd->buffer)
 	{
 		remove_fd_node(&head, fd);
-		current_fd->buffer = NULL;
+		return (NULL);
 	}
+	line = extract_line(&current_fd->buffer);
+	if (!line)
+		remove_fd_node(&head, fd);
 	return (line);
 }
 
@@ -99,7 +101,7 @@ static char	*extract_line(char **buffer)
 	else
 	{
 		line = *buffer;
-		buffer = NULL;
+		*buffer = NULL;
 	}
 	if (!*line)
 	{
