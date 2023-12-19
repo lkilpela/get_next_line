@@ -6,7 +6,7 @@
 /*   By: lkilpela <lkilpela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 12:07:32 by lkilpela          #+#    #+#             */
-/*   Updated: 2023/12/18 15:43:02 by lkilpela         ###   ########.fr       */
+/*   Updated: 2023/12/18 15:45:19 by lkilpela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static char	*read_until_newline(int fd, char *buffer)
 	char	read_buf[BUFFER_SIZE + 1];
 
 	read_count = read(fd, read_buf, BUFFER_SIZE);
-	while (i > 0)
+	while (read_count > 0)
 	{
 		read_buf[read_count] = '\0';
 		buffer = merge_string(buffer, read_buf);
@@ -87,6 +87,7 @@ static char	*extract_line(char **buffer)
 	free(line);
 	return (copy);
 }
+
 static char	*merge_string(char *s1, char *s2)
 {
 	char	*result;
@@ -97,7 +98,7 @@ static char	*merge_string(char *s1, char *s2)
 		return (NULL);
 	s1_len = ft_strlen(s1);
 	s2_len = ft_strlen(s2);
-	result = (char *) malloc(s1_len + s2_len) + 1);
+	result = (char *) malloc(s1_len + s2_len + 1);
 	if (result)
 	{
 		ft_memcpy(result, s1, s1_len);
