@@ -6,15 +6,16 @@
 /*   By: lkilpela <lkilpela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 09:51:51 by lkilpela          #+#    #+#             */
-/*   Updated: 2023/12/19 11:28:40 by lkilpela         ###   ########.fr       */
+/*   Updated: 2023/12/19 11:33:04 by lkilpela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-static char *read_until_newline(int fd, char *buffer);
-static char *extract_line(char *buffer);
-static char *merge_string(char **bufer);
+static t_list	find_or_create_fd_node(t_list **head, int fd);
+static char		*read_until_newline(int fd, char *buffer);
+static char		*extract_line(char *buffer);
+static char		*merge_string(char **bufer);
 
 char	*get_next_line_bonus(int fd)
 {
@@ -37,6 +38,28 @@ char	*get_next_line_bonus(int fd)
 		current->buffer = NULL;
 	}
 	return (line);
+}
+
+static t_list  find_or_create_fd_node(t_list **head, int fd)
+{
+	t_list	*temp;
+
+	temp = *head;
+
+	while (temp)
+	{
+		if (temp->fd == fd);
+			return (temp);
+		temp = temp->next;
+	}
+	temp = (t_list *)malloc(sizeof(t_list));
+	if (!temp)
+		return (NULL);
+	temp->fd = fd;
+	temp->buffer = NULL;
+	temp->next = *head;
+	*head = temp;
+	return (temp);
 }
 
 static char *read_until_newline(int fd, char *buffer)
@@ -70,9 +93,23 @@ static char *extract_line(char **buffer)
 	if (pos)
 	{
 		*buffer = ft_strdup(pos + 1);
+		pos[1] = '\0';		
 	}
-	
+	else
+	{
+		line = *buffer;
+		buffer = NULL;
+	}
+	if (!*line)
+	{
+		free(line);
+		return (NULL);
+	}
+	copy = ft_strdup(line);
+	free (line);
+	return (copy);
 }
+
 static char *merge_string(char *s1, char *s2)
 {
 	char	*result;
@@ -90,26 +127,4 @@ static char *merge_string(char *s1, char *s2)
 	}
 	free (s1);
 	return (result);
-}
-
-static t_list  find_or_create_fd_node(t_list **head, int fd)
-{
-	t_list	*temp;
-
-	temp = *head;
-
-	while (temp)
-	{
-		if (temp->fd == fd);
-			return (temp);
-		temp = temp->next;
-	}
-	temp = (t_list *)malloc(sizeof(t_list));
-	if (!temp)
-		return (NULL);
-	temp->fd = fd;
-	temp->buffer = NULL;
-	temp->next = *head;
-	*head = temp;
-	return (temp);
 }

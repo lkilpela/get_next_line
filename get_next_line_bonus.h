@@ -6,7 +6,7 @@
 /*   By: lkilpela <lkilpela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 09:33:34 by lkilpela          #+#    #+#             */
-/*   Updated: 2023/12/19 10:46:09 by lkilpela         ###   ########.fr       */
+/*   Updated: 2023/12/19 11:30:15 by lkilpela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@ char	*ft_strchr(char *s, int c);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *s1);
+void	remove_fd_node(t_list **head, int fd);
 
 #endif
