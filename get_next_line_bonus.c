@@ -6,7 +6,7 @@
 /*   By: lkilpela <lkilpela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 09:51:51 by lkilpela          #+#    #+#             */
-/*   Updated: 2023/12/19 12:51:59 by lkilpela         ###   ########.fr       */
+/*   Updated: 2023/12/19 13:30:03 by lkilpela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*get_next_line(int fd)
 	t_list			*current_fd;
 	char			*line;
 
-	if (fd < 0)
+	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
 	current_fd = find_or_create_fd_node(&head, fd);
 	if (!current_fd)
