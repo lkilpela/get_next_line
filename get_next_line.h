@@ -6,7 +6,7 @@
 /*   By: lkilpela <lkilpela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 22:23:55 by lkilpela          #+#    #+#             */
-/*   Updated: 2023/12/18 15:40:02 by lkilpela         ###   ########.fr       */
+/*   Updated: 2023/12/19 09:38:02 by lkilpela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,6 @@
 
 # include <unistd.h>
 # include <stdlib.h>
-
-typedef struct s_list
-{
-	char	*buffer;
-	size_t	used;
-	size_t	size;
-}				t_list;
 
 char	*get_next_line(int fd);
 char	*ft_strchr(char *s, int c);
