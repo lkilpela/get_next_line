@@ -6,7 +6,7 @@
 /*   By: lkilpela <lkilpela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 12:07:32 by lkilpela          #+#    #+#             */
-/*   Updated: 2023/12/19 09:22:57 by lkilpela         ###   ########.fr       */
+/*   Updated: 2023/12/19 10:10:57 by lkilpela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ static char	*merge_string(char *s1, char *s2)
 	if (result)
 	{
 		ft_memcpy(result, s1, len1);
-		ft_memcpy(result + len2, s2, len2);
+		ft_memcpy(result + len1, s2, len2);
 		result[len1 + len2] = '\0';
 	}
 	free(s1);
