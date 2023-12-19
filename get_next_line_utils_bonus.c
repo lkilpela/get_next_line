@@ -6,7 +6,7 @@
 /*   By: lkilpela <lkilpela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 09:41:53 by lkilpela          #+#    #+#             */
-/*   Updated: 2023/12/19 11:28:01 by lkilpela         ###   ########.fr       */
+/*   Updated: 2023/12/19 11:37:13 by lkilpela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	remove_fd_node(t_list **head, int fd)
 {
 	t_list	*temp;
 	t_list	*prev;
-	
+
 	temp = *head;
 	prev = NULL;
 	while (temp)

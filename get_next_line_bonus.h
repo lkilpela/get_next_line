@@ -6,25 +6,25 @@
 /*   By: lkilpela <lkilpela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 09:33:34 by lkilpela          #+#    #+#             */
-/*   Updated: 2023/12/19 11:30:15 by lkilpela         ###   ########.fr       */
+/*   Updated: 2023/12/19 11:43:34 by lkilpela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_BONUS.H
-# define GET_NEXT_LINE_BONUS.H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
 # ifndef BUFFER_SIZE 
 #  define BUFFER_SIZE 10
 # endif
 
-#include <unistd.h>
-#include <stdlib.h>
+# include <unistd.h>
+# include <stdlib.h>
 
 typedef struct s_list
 {
-	char	*buffer;
-	int		fd;
-	s_list	*next;
+	char			*buffer;
+	int				fd;
+	struct s_list	*next;
 }				t_list;
 
 char	*get_next_line(int fd);
