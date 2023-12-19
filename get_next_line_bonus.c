@@ -6,7 +6,7 @@
 /*   By: lkilpela <lkilpela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 09:51:51 by lkilpela          #+#    #+#             */
-/*   Updated: 2023/12/19 10:10:41 by lkilpela         ###   ########.fr       */
+/*   Updated: 2023/12/19 10:48:39 by lkilpela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,13 @@ static char *merge_string(char **bufer);
 
 char	*get_next_line_bonus(int fd)
 {
+	static t_list	*fd_list;
+	t_list			*current_fd;
+	char			*line;
+	
 	if (fd < 0)
 		return (NULL);
+	
 
 }
 
@@ -32,8 +37,17 @@ static char *read_until_newline(int fd, char *buffer)
 	while (read_count > 0)
 	{
 		read_buff[read_count] = '\0';
-		
+		buffer = merge_string(buffer, read_buff);
+		if (!buffer || ft_strchr(read_buff, '\n'))
+			break ;
+		read_count = read(fd, read_buff, BUFFER_SIZE);		
 	}
+	if (read_count < 0 || !buffer)
+	{
+		free(buffer);
+		return (NULL);
+	}
+	return (buffer);
 }
 static char *extract_line(char **buffer);
 static char *merge_string(char *s1, char *s2)

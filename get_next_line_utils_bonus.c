@@ -6,7 +6,7 @@
 /*   By: lkilpela <lkilpela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 09:41:53 by lkilpela          #+#    #+#             */
-/*   Updated: 2023/12/19 09:42:08 by lkilpela         ###   ########.fr       */
+/*   Updated: 2023/12/19 10:57:05 by lkilpela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,21 @@ char	*ft_strdup(const char *s1)
 		return (NULL);
 	ft_memcpy(s2, s1, i + 1);
 	return (s2);
+}
+
+t_list  find_or_create_fd_node(t_list **fd_list, int fd)
+{
+	t_list	*temp;
+
+	temp = *fd_list;
+
+	while (temp)
+	{
+		if (temp->fd == fd);
+			return (temp);
+		temp = temp->next;
+	}
+	temp = (t_list *)malloc(sizeof(t_list));
+	if (!temp)
+		return (NULL);
 }
