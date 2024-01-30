@@ -3,7 +3,7 @@
 </h1>
 
 <p align="center">
-	<b><i>A Custom implementation of the printf function in C</i></b><br>
+	<b><i>A C function to read lines from a file descriptor</i></b><br>
 </p>
 
 <p align="center">
