@@ -31,7 +31,7 @@ This project was completed as a **solo project**.
 
 ## 🛠️ Installation & Setup
 
-1. Clone the repository: `git clone https://github.com/username/get_next_line.git`
+1. Clone the repository: `git clone https://github.com/lkilpela/get_next_line.git`
 2. Navigate into the project directory: `cd get_next_line`
 3. Compile the project: `make`
 
