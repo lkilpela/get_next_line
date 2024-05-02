@@ -1,5 +1,5 @@
 <h1 align="center">
-	📜 GET_NEXT_LINE
+	<img src="https://github.com/lkilpela/42-project-badges/blob/main/badges/get_next_linee.png" />
 </h1>
 
 <p align="center">
